@@ -28,9 +28,13 @@ function App() {
 				<HeaderBar setCocktailsListing={setCocktailsListing} />
 				<SearchBar setCocktailsListing={setCocktailsListing} />
 				{cocktailsListing && cocktailsListing.length <= 1 ? (
+					// {!cocktailsListing ? (
 					<Cocktail cocktailsListing={cocktailsListing} />
 				) : (
-					<CocktailsList cocktailsListing={cocktailsListing} />
+					<CocktailsList
+						cocktailsListing={cocktailsListing}
+						setCocktailsListing={setCocktailsListing}
+					/>
 				)}
 			</Container>
 		</Box>

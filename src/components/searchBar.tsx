@@ -7,10 +7,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import { alpha, styled } from "@mui/material/styles";
-import pDebounce from "p-debounce";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { getCocktailByNamePart } from "../api/requests";
 import { ICocktailItem } from "./types";
+import debounce from "lodash.debounce";
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -49,22 +49,26 @@ const SearchBar = ({
 	const [inputValue, setInputValue] = useState("");
 	const [loading, setLoading] = useState(false);
 
+	const handleClear = () => {
+		setInputValue("");
+		setCocktailsListing([]);
+		setLoading(false);
+	};
+	const debouncedGetCocktailByNamePart = useCallback(
+		debounce(async (value: string) => {
+			await getCocktailByNamePart(value)
+				.then((result) => setCocktailsListing(result.drinks))
+				.finally(() => setLoading(false));
+		}, 500),
+		[]
+	);
 	const handleInput = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		const { value } = event.target;
 		setInputValue(value);
 		setLoading(true);
-		value
-			? getCocktailByNamePart(value)
-					.then((result) => setCocktailsListing(result.drinks))
-					.finally(() => setLoading(false))
-			: handleClear();
-	};
-	const handleClear = () => {
-		setInputValue("");
-		setCocktailsListing([]);
-		setLoading(false);
+		value ? debouncedGetCocktailByNamePart(value) : handleClear();
 	};
 
 	return (

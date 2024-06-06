@@ -1,0 +1,15 @@
+meta {
+  name: Filter by Ingredient
+  type: http
+  seq: 9
+}
+
+get {
+  url: www.thecocktaildb.com/api/json/v1/1/filter.php?i=Vodka
+  body: none
+  auth: none
+}
+
+query {
+  i: Vodka
+}
