@@ -1,14 +1,12 @@
-// import "./App.css";
-
-import { useState } from "react";
 import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { useState } from "react";
 import HeaderBar from "./components/headerBar";
 import SearchBar from "./components/searchBar";
+import { ICocktailItem } from "./components/types";
 import Cocktail from "./pages/cocktail";
 import CocktailsList from "./pages/cocktailsList";
-import { ICocktailItem } from "./components/types";
 
 function App() {
 	const [cocktailsListing, setCocktailsListing] = useState<ICocktailItem[]>([]);
@@ -29,7 +27,7 @@ function App() {
 			<Container maxWidth="xs">
 				<HeaderBar setCocktailsListing={setCocktailsListing} />
 				<SearchBar setCocktailsListing={setCocktailsListing} />
-				{cocktailsListing.length <= 1 ? (
+				{cocktailsListing && cocktailsListing.length <= 1 ? (
 					<Cocktail cocktailsListing={cocktailsListing} />
 				) : (
 					<CocktailsList cocktailsListing={cocktailsListing} />

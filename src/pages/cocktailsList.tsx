@@ -6,7 +6,8 @@ const CocktailsList = ({
 	cocktailsListing: ICocktailItem[];
 }) => {
 	console.log(cocktailsListing);
-	// return <div>LIST</div>;
+	return <div>LIST</div>;
+	// return <div>No options</div>
 };
 
 export default CocktailsList;
