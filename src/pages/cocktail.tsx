@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
-import { getCocktail } from "../api/requests";
+import { getCocktailByName } from "../api/requests";
 
 const Cocktail = ({
 	cocktailsListing,
@@ -21,7 +21,7 @@ const Cocktail = ({
 	const [cocktailItem, setCocktailItem] = useState<ICocktailItem>();
 
 	useEffect(() => {
-		getCocktail(cocktailsListing[0]?.idDrink).then((result) =>
+		getCocktailByName(cocktailsListing[0]?.strDrink).then((result) =>
 			setCocktailItem(result.drinks[0])
 		);
 	}, [cocktailsListing]);

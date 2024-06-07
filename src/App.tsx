@@ -1,16 +1,15 @@
-// import "./App.css";
-
-import { useState } from "react";
 import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { useState } from "react";
 import HeaderBar from "./components/headerBar";
 import SearchBar from "./components/searchBar";
+import { ICocktailItem } from "./components/types";
 import Cocktail from "./pages/cocktail";
 import CocktailsList from "./pages/cocktailsList";
-import { ICocktailItem } from "./components/types";
 
 function App() {
+	const [inputValue, setInputValue] = useState("");
 	const [cocktailsListing, setCocktailsListing] = useState<ICocktailItem[]>([]);
 
 	return (
@@ -28,11 +27,19 @@ function App() {
 		>
 			<Container maxWidth="xs">
 				<HeaderBar setCocktailsListing={setCocktailsListing} />
-				<SearchBar setCocktailsListing={setCocktailsListing} />
-				{cocktailsListing.length <= 1 ? (
+				<SearchBar
+					inputValue={inputValue}
+					setInputValue={setInputValue}
+					setCocktailsListing={setCocktailsListing}
+				/>
+				{cocktailsListing && cocktailsListing.length <= 1 ? (
 					<Cocktail cocktailsListing={cocktailsListing} />
 				) : (
-					<CocktailsList cocktailsListing={cocktailsListing} />
+					<CocktailsList
+						setInputValue={setInputValue}
+						cocktailsListing={cocktailsListing}
+						setCocktailsListing={setCocktailsListing}
+					/>
 				)}
 			</Container>
 		</Box>

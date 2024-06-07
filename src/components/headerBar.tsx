@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-import logo from "../../public/img/logo.png";
+import logo from "/img/logo.png";
 import { Container } from "@mui/material";
 import { ICocktailItem } from "./types";
 
@@ -48,7 +48,7 @@ const HeaderBar = ({
 								<Box
 									component="img"
 									sx={{ height: 34, flexGrow: 1 }}
-									alt="Logo"
+									alt="Server connection error"
 									src={logo}
 								/>
 							</IconButton>

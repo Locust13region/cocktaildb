@@ -1,13 +1,16 @@
-import { useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
+import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import Toolbar from "@mui/material/Toolbar";
+import { alpha, styled } from "@mui/material/styles";
+import { useState, useCallback, useMemo } from "react";
+import { getCocktailByName } from "../api/requests";
 import { ICocktailItem } from "./types";
-import { getCocktailByNamePart } from "../api/requests";
+import debounce from "lodash.debounce";
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -26,126 +29,96 @@ const Search = styled("div")(({ theme }) => ({
 	},
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-	padding: theme.spacing(0, 2),
-	height: "100%",
-	position: "absolute",
-	pointerEvents: "none",
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "center",
-}));
-
-const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
+const StyledTextField = styled(TextField)(({ theme }) => ({
 	color: "inherit",
-	"&& .MuiAutocomplete-input": {
+	"&.MuiTextField-root": {
 		padding: theme.spacing(1, 1, 1, 0),
-		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
 		transition: theme.transitions.create("width"),
 		width: "100%",
-		// [theme.breakpoints.up("md")]: {
-		// 	width: "20ch",
-		// },
+		[theme.breakpoints.up("md")]: {
+			width: "20ch",
+		},
 	},
 }));
 
 const SearchBar = ({
+	inputValue,
+	setInputValue,
 	setCocktailsListing,
 }: {
+	inputValue: string;
+	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
 }) => {
-	// const dispatch = useAppDispatch();
-	// const navigate = useNavigate();
-	const [open, setOpen] = useState(false);
-	const [cocktailsList, setCocktailsList] = useState<ICocktailItem[]>([]);
 	const [loading, setLoading] = useState(false);
-	// const loading = open && cocktailsList.length === 0;
 
-	const handleInput = async (
-		_: React.SyntheticEvent,
-		value,
-		reason: string
-	) => {
-		setLoading(true);
-		await getCocktailByNamePart(value)
-			.then((result) => setCocktailsList(result.drinks))
-			.then(() => setOpen(true))
-			.finally(() => setLoading(false));
-		console.log("value", value);
-		console.log("reason", reason);
+	const handleClear = () => {
+		setInputValue("");
+		setCocktailsListing([]);
+		setLoading(false);
 	};
-
-	const handleOptionSelected = (
-		_: React.SyntheticEvent<Element, Event>,
-		value: TRecipe | null,
-		reason: AutocompleteChangeReason
-	) => {
-		if (value && reason === "selectOption") {
-			console.log("value", value);
-			// 		navigate(`/${value.categoryId}/${value.id}`);
-		}
-	};
-
-	const handleOpen = () => {};
-	const handleClose = () => {
-		setOpen(false);
-	};
+	const debouncedGetCocktailByName = useMemo(
+		() =>
+			debounce(async (value: string) => {
+				return await getCocktailByName(value)
+					.then((result) => setCocktailsListing(result.drinks))
+					.finally(() => setLoading(false));
+			}, 500),
+		[setCocktailsListing]
+	);
+	const handleInput = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+			const { value } = event.target;
+			setInputValue(value);
+			setLoading(true);
+			debouncedGetCocktailByName(value);
+		},
+		[debouncedGetCocktailByName]
+	);
 
 	return (
 		<Box sx={{ my: 2 }}>
 			<Toolbar />
 			<Search>
-				{!loading ? (
-					<SearchIconWrapper>
-						<SearchIcon />
-					</SearchIconWrapper>
-				) : null}
-
-				<StyledAutocomplete
-					id="searchCocktail"
+				<StyledTextField
+					id="SearchField"
+					type="text"
+					placeholder="Search…"
+					variant="standard"
 					fullWidth
-					forcePopupIcon={false}
-					loadingText={"Loading…"}
-					noOptionsText={"No options"}
-					filterOptions={(x) => x}
-					open={open}
-					onOpen={handleOpen}
-					onClose={handleClose}
-					onInputChange={handleInput}
-					onChange={handleOptionSelected}
-					isOptionEqualToValue={(option, value) =>
-						option.strDrink === value.strDrink
-					}
-					getOptionLabel={(option) => option.strDrink}
-					options={cocktailsList}
-					loading={loading}
-					renderInput={(params) => (
-						<TextField
-							type="text"
-							placeholder={!loading ? "Search…" : ""} //!!!!!! FILTERED!!!!!!
-							variant="standard"
-							{...params}
-							InputProps={{
-								...params.InputProps,
-								disableUnderline: true,
-
-								endAdornment: (
-									<>
-										{loading ? (
-											<SearchIconWrapper>
-												<CircularProgress
-													color="inherit"
-													size={20}
-												/>
-											</SearchIconWrapper>
-										) : null}
-										{params.InputProps.endAdornment}
-									</>
-								),
-							}}
-						/>
-					)}
-				/>
+					value={inputValue}
+					onChange={handleInput}
+					InputProps={{
+						"aria-label": "search",
+						disableUnderline: true,
+						startAdornment: (
+							<InputAdornment
+								position="start"
+								sx={{
+									paddingLeft: 2,
+								}}
+							>
+								{loading ? (
+									<CircularProgress
+										color="inherit"
+										size={20}
+									/>
+								) : (
+									<SearchIcon />
+								)}
+							</InputAdornment>
+						),
+						endAdornment: (
+							<InputAdornment position="start">
+								{inputValue ? (
+									<IconButton onClick={handleClear}>
+										<ClearIcon />
+									</IconButton>
+								) : null}
+							</InputAdornment>
+						),
+					}}
+				></StyledTextField>
 			</Search>
 		</Box>
 	);

@@ -8,7 +8,7 @@
   ],
   "presets": {
     "requestType": "http",
-    "requestUrl": "www.thecocktaildb.com"
+    "requestUrl": ""
   },
   "proxy": {
     "bypassProxy": "",
