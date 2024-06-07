@@ -7,9 +7,11 @@ import Skeleton from "@mui/material/Skeleton";
 import React from "react";
 
 const CocktailsList = ({
+	setInputValue,
 	cocktailsListing,
 	setCocktailsListing,
 }: {
+	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	cocktailsListing: ICocktailItem[];
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
 }) => {
@@ -83,6 +85,10 @@ const CocktailsList = ({
 						<Box
 							key={index}
 							gap={2}
+							onClick={() => {
+								setInputValue(cocktailItem.strDrink);
+								setCocktailsListing([cocktailItem]);
+							}}
 							sx={{
 								display: "flex",
 								marginBottom: 1,

@@ -7,8 +7,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import { alpha, styled } from "@mui/material/styles";
-import { useState, useCallback } from "react";
-import { getCocktailByNamePart } from "../api/requests";
+import { useState, useCallback, useMemo } from "react";
+import { getCocktailByName } from "../api/requests";
 import { ICocktailItem } from "./types";
 import debounce from "lodash.debounce";
 
@@ -42,11 +42,14 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const SearchBar = ({
+	inputValue,
+	setInputValue,
 	setCocktailsListing,
 }: {
+	inputValue: string;
+	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
 }) => {
-	const [inputValue, setInputValue] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	const handleClear = () => {
@@ -54,22 +57,24 @@ const SearchBar = ({
 		setCocktailsListing([]);
 		setLoading(false);
 	};
-	const debouncedGetCocktailByNamePart = useCallback(
-		debounce(async (value: string) => {
-			await getCocktailByNamePart(value)
-				.then((result) => setCocktailsListing(result.drinks))
-				.finally(() => setLoading(false));
-		}, 500),
-		[]
+	const debouncedGetCocktailByName = useMemo(
+		() =>
+			debounce(async (value: string) => {
+				return await getCocktailByName(value)
+					.then((result) => setCocktailsListing(result.drinks))
+					.finally(() => setLoading(false));
+			}, 500),
+		[setCocktailsListing]
 	);
-	const handleInput = (
-		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		const { value } = event.target;
-		setInputValue(value);
-		setLoading(true);
-		value ? debouncedGetCocktailByNamePart(value) : handleClear();
-	};
+	const handleInput = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+			const { value } = event.target;
+			setInputValue(value);
+			setLoading(true);
+			debouncedGetCocktailByName(value);
+		},
+		[debouncedGetCocktailByName]
+	);
 
 	return (
 		<Box sx={{ my: 2 }}>

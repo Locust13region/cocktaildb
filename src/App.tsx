@@ -9,6 +9,7 @@ import Cocktail from "./pages/cocktail";
 import CocktailsList from "./pages/cocktailsList";
 
 function App() {
+	const [inputValue, setInputValue] = useState("");
 	const [cocktailsListing, setCocktailsListing] = useState<ICocktailItem[]>([]);
 
 	return (
@@ -26,12 +27,16 @@ function App() {
 		>
 			<Container maxWidth="xs">
 				<HeaderBar setCocktailsListing={setCocktailsListing} />
-				<SearchBar setCocktailsListing={setCocktailsListing} />
+				<SearchBar
+					inputValue={inputValue}
+					setInputValue={setInputValue}
+					setCocktailsListing={setCocktailsListing}
+				/>
 				{cocktailsListing && cocktailsListing.length <= 1 ? (
-					// {!cocktailsListing ? (
 					<Cocktail cocktailsListing={cocktailsListing} />
 				) : (
 					<CocktailsList
+						setInputValue={setInputValue}
 						cocktailsListing={cocktailsListing}
 						setCocktailsListing={setCocktailsListing}
 					/>
