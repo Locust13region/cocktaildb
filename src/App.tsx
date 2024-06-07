@@ -7,10 +7,12 @@ import SearchBar from "./components/searchBar";
 import { ICocktailItem } from "./components/types";
 import Cocktail from "./pages/cocktail";
 import CocktailsList from "./pages/cocktailsList";
+import ErrorOccurred from "./pages/error";
 
 function App() {
 	const [inputValue, setInputValue] = useState("");
 	const [cocktailsListing, setCocktailsListing] = useState<ICocktailItem[]>([]);
+	const [errorApi, setErrorApi] = useState(false);
 
 	return (
 		<Box
@@ -31,16 +33,22 @@ function App() {
 					inputValue={inputValue}
 					setInputValue={setInputValue}
 					setCocktailsListing={setCocktailsListing}
+					setErrorApi={setErrorApi}
 				/>
-				{cocktailsListing && cocktailsListing.length <= 1 ? (
-					<Cocktail cocktailsListing={cocktailsListing} />
-				) : (
-					<CocktailsList
-						setInputValue={setInputValue}
-						cocktailsListing={cocktailsListing}
-						setCocktailsListing={setCocktailsListing}
-					/>
-				)}
+				{!errorApi &&
+					(cocktailsListing && cocktailsListing.length <= 1 ? (
+						<Cocktail
+							cocktailsListing={cocktailsListing}
+							setErrorApi={setErrorApi}
+						/>
+					) : (
+						<CocktailsList
+							setInputValue={setInputValue}
+							cocktailsListing={cocktailsListing}
+							setCocktailsListing={setCocktailsListing}
+						/>
+					))}
+				{errorApi && <ErrorOccurred />}
 			</Container>
 		</Box>
 	);

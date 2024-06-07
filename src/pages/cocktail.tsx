@@ -15,16 +15,18 @@ import { getCocktailByName } from "../api/requests";
 
 const Cocktail = ({
 	cocktailsListing,
+	setErrorApi,
 }: {
 	cocktailsListing: ICocktailItem[];
+	setErrorApi: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	const [cocktailItem, setCocktailItem] = useState<ICocktailItem>();
 
 	useEffect(() => {
-		getCocktailByName(cocktailsListing[0]?.strDrink).then((result) =>
-			setCocktailItem(result.drinks[0])
+		getCocktailByName(cocktailsListing[0]?.strDrink, setErrorApi).then(
+			(result) => setCocktailItem(result.drinks[0])
 		);
-	}, [cocktailsListing]);
+	}, [cocktailsListing, setErrorApi]);
 
 	return (
 		<>

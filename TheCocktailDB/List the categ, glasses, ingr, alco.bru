@@ -1,0 +1,18 @@
+meta {
+  name: List the categ, glasses, ingr, alco
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base}}/api/json/v1/1/list.php?a=list
+  body: none
+  auth: none
+}
+
+query {
+  a: list
+  ~g: list
+  ~i: list
+  ~c: list
+}

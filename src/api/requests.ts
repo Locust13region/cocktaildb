@@ -1,12 +1,18 @@
 import { urlCocktailByNamePart, urlRandom } from "../api/url";
 
-const fetchDb = async (url: string) => {
-	const response = await fetch(url);
-	const result = await response.json();
-	return result;
-};
-
-export function getCocktailByName(namePart: string) {
+export async function getCocktailByName(
+	namePart: string,
+	setErrorApi: React.Dispatch<React.SetStateAction<boolean>>
+) {
 	const requestUrl = namePart ? urlCocktailByNamePart + namePart : urlRandom;
-	return fetchDb(requestUrl);
+	try {
+		const response = await fetch(requestUrl);
+		if (!response.ok) {
+			throw new Error(response.statusText);
+		}
+		return await response.json();
+	} catch (error) {
+		console.log("Fetch", error);
+		setErrorApi(true);
+	}
 }

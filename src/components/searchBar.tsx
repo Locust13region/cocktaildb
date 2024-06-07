@@ -36,7 +36,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 		transition: theme.transitions.create("width"),
 		width: "100%",
 		[theme.breakpoints.up("md")]: {
-			width: "20ch",
+			width: "40ch",
 		},
 	},
 }));
@@ -45,10 +45,12 @@ const SearchBar = ({
 	inputValue,
 	setInputValue,
 	setCocktailsListing,
+	setErrorApi,
 }: {
 	inputValue: string;
 	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
+	setErrorApi: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	const [loading, setLoading] = useState(false);
 
@@ -60,11 +62,11 @@ const SearchBar = ({
 	const debouncedGetCocktailByName = useMemo(
 		() =>
 			debounce(async (value: string) => {
-				return await getCocktailByName(value)
+				return await getCocktailByName(value, setErrorApi)
 					.then((result) => setCocktailsListing(result.drinks))
 					.finally(() => setLoading(false));
 			}, 500),
-		[setCocktailsListing]
+		[setCocktailsListing, setErrorApi]
 	);
 	const handleInput = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -73,7 +75,7 @@ const SearchBar = ({
 			setLoading(true);
 			debouncedGetCocktailByName(value);
 		},
-		[debouncedGetCocktailByName]
+		[debouncedGetCocktailByName, setInputValue]
 	);
 
 	return (
