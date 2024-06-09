@@ -5,6 +5,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import React from "react";
+import Fade from "@mui/material/Fade";
+import Grow from "@mui/material/Grow";
 
 const CocktailsList = ({
 	setInputValue,
@@ -17,16 +19,21 @@ const CocktailsList = ({
 }) => {
 	if (!cocktailsListing) {
 		return (
-			<Typography
-				component={"h4"}
-				align="center"
-				variant="h6"
-				sx={{
-					width: "100%",
-				}}
+			<Fade
+				in={true}
+				timeout={1000}
 			>
-				No options
-			</Typography>
+				<Typography
+					component={"h4"}
+					align="center"
+					variant="h6"
+					sx={{
+						width: "100%",
+					}}
+				>
+					No options
+				</Typography>
+			</Fade>
 		);
 	}
 	return (
@@ -82,51 +89,57 @@ const CocktailsList = ({
 			) : (
 				<Box paddingBottom={8}>
 					{cocktailsListing.map((cocktailItem, index) => (
-						<Box
-							key={index}
-							gap={2}
-							onClick={() => {
-								setInputValue(cocktailItem.strDrink);
-								setCocktailsListing([cocktailItem]);
-							}}
-							sx={{
-								display: "flex",
-								marginBottom: 1,
-							}}
+						<Grow
+							in={true}
+							style={{ transformOrigin: "0 0 0" }}
+							timeout={800 * index}
 						>
-							<Avatar
-								alt={cocktailItem.strDrink ?? undefined}
-								src={`${cocktailItem.strDrinkThumb}/preview`}
-								sx={{ width: 100, height: 100, borderRadius: 4 }}
-							/>
-							<Stack
-								direction="column"
-								width="100%"
-								sx={{ paddingTop: 1 }}
+							<Box
+								key={index}
+								gap={2}
+								onClick={() => {
+									setInputValue(cocktailItem.strDrink);
+									setCocktailsListing([cocktailItem]);
+								}}
+								sx={{
+									display: "flex",
+									marginBottom: 1,
+								}}
 							>
-								<Typography
-									component={"h4"}
-									variant="body1"
-									sx={{
-										width: "100%",
-									}}
+								<Avatar
+									alt={cocktailItem.strDrink ?? undefined}
+									src={`${cocktailItem.strDrinkThumb}/preview`}
+									sx={{ width: 100, height: 100, borderRadius: 4 }}
+								/>
+								<Stack
+									direction="column"
+									width="100%"
+									sx={{ paddingTop: 1 }}
 								>
-									{cocktailItem.strDrink}
-								</Typography>
-								<Typography
-									variant="caption"
-									component="p"
-								>
-									{cocktailItem.strCategory}
-								</Typography>
-								<Typography
-									variant="caption"
-									component="p"
-								>
-									{cocktailItem.strAlcoholic}
-								</Typography>
-							</Stack>
-						</Box>
+									<Typography
+										component={"h4"}
+										variant="body1"
+										sx={{
+											width: "100%",
+										}}
+									>
+										{cocktailItem.strDrink}
+									</Typography>
+									<Typography
+										variant="caption"
+										component="p"
+									>
+										{cocktailItem.strCategory}
+									</Typography>
+									<Typography
+										variant="caption"
+										component="p"
+									>
+										{cocktailItem.strAlcoholic}
+									</Typography>
+								</Stack>
+							</Box>
+						</Grow>
 					))}
 				</Box>
 			)}

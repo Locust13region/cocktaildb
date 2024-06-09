@@ -5,14 +5,14 @@ meta {
 }
 
 get {
-  url: {{base}}/api/json/v1/1/list.php?a=list
+  url: {{base}}/api/json/v1/1/list.php?i=list
   body: none
   auth: none
 }
 
 query {
-  a: list
+  i: list
+  ~a: list
   ~g: list
-  ~i: list
   ~c: list
 }

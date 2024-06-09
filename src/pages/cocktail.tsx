@@ -12,6 +12,8 @@ import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import { getCocktailByName } from "../api/requests";
+import Fade from "@mui/material/Fade";
+import Grow from "@mui/material/Grow";
 
 const Cocktail = ({
 	cocktailsListing,
@@ -35,16 +37,21 @@ const Cocktail = ({
 					sx={{ padding: 2 }}
 					title={
 						cocktailItem ? (
-							<Typography
-								component={"h1"}
-								variant="h5"
-								noWrap
-								sx={{
-									width: "100%",
-								}}
+							<Fade
+								in={!!cocktailItem}
+								timeout={1000}
 							>
-								{cocktailItem.strDrink}
-							</Typography>
+								<Typography
+									component={"h1"}
+									variant="h5"
+									noWrap
+									sx={{
+										width: "100%",
+									}}
+								>
+									{cocktailItem.strDrink}
+								</Typography>
+							</Fade>
 						) : (
 							<Skeleton
 								animation="wave"
@@ -65,19 +72,24 @@ const Cocktail = ({
 						) : (
 							<Skeleton
 								animation="wave"
-								height={10}
+								height={15}
 								width="80%"
 							/>
 						)
 					}
 				/>
 				{cocktailItem ? (
-					<CardMedia
-						component="img"
-						height="380"
-						image={cocktailItem.strDrinkThumb ?? undefined}
-						alt={cocktailItem.strDrink}
-					/>
+					<Fade
+						in={!!cocktailItem}
+						timeout={1000}
+					>
+						<CardMedia
+							component="img"
+							height="380"
+							image={cocktailItem.strDrinkThumb ?? undefined}
+							alt={cocktailItem.strDrink}
+						/>
+					</Fade>
 				) : (
 					<Skeleton
 						sx={{ height: 380 }}
@@ -125,43 +137,49 @@ const Cocktail = ({
 										index + 1
 									}` as keyof ICocktailItem;
 									return (
-										<Box
-											key={index}
-											gap={1}
-											sx={{
-												display: "flex",
-												marginBottom: 1,
-											}}
+										<Grow
+											in={true}
+											style={{ transformOrigin: "0 0 0" }}
+											timeout={1000 * index}
 										>
-											<Avatar
-												variant="rounded"
-												alt={cocktailItem[ingredient] ?? undefined}
-												src={
-													urlIngredientThumb +
-													cocktailItem[ingredient] +
-													IngredientsThumbSize.small
-												}
-												sx={{ width: 100, height: 100 }}
-											/>
-											<Stack
-												direction="column"
-												width="100%"
-												sx={{ paddingTop: 1 }}
+											<Box
+												key={index}
+												gap={1}
+												sx={{
+													display: "flex",
+													marginBottom: 1,
+												}}
 											>
-												<Typography
-													variant="body1"
-													component="p"
+												<Avatar
+													variant="rounded"
+													alt={cocktailItem[ingredient] ?? undefined}
+													src={
+														urlIngredientThumb +
+														cocktailItem[ingredient] +
+														IngredientsThumbSize.small
+													}
+													sx={{ width: 100, height: 100 }}
+												/>
+												<Stack
+													direction="column"
+													width="100%"
+													sx={{ paddingTop: 1 }}
 												>
-													{cocktailItem[ingredient]}
-												</Typography>
-												<Typography
-													variant="body1"
-													component="p"
-												>
-													{cocktailItem[measure]}
-												</Typography>
-											</Stack>
-										</Box>
+													<Typography
+														variant="body1"
+														component="p"
+													>
+														{cocktailItem[ingredient]}
+													</Typography>
+													<Typography
+														variant="body1"
+														component="p"
+													>
+														{cocktailItem[measure]}
+													</Typography>
+												</Stack>
+											</Box>
+										</Grow>
 									);
 								})}
 						</>
