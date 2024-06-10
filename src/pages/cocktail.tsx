@@ -1,19 +1,20 @@
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import Skeleton from "@mui/material/Skeleton";
-import React, { useEffect, useState } from "react";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { ICocktailItem, IngredientsThumbSize } from "../components/types";
-import { urlIngredientThumb } from "../api/url";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
-import { getCocktailByName } from "../api/requests";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import Divider from "@mui/material/Divider";
 import Fade from "@mui/material/Fade";
 import Grow from "@mui/material/Grow";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
+import { getCocktailByName } from "../api/requests";
+import { urlIngredientThumb } from "../api/url";
+import { ICocktailItem, IngredientsThumbSize } from "../components/types";
+import IngredientModal from "../components/ingredientModal";
 
 const Cocktail = ({
 	cocktailsListing,
@@ -23,6 +24,9 @@ const Cocktail = ({
 	setErrorApi: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	const [cocktailItem, setCocktailItem] = useState<ICocktailItem>();
+	const [ingredientModal, setIngredientModal] = useState("");
+	const handleIngredientOpen = (ingredient: string) =>
+		setIngredientModal(ingredient);
 
 	useEffect(() => {
 		getCocktailByName(cocktailsListing[0]?.strDrink, setErrorApi).then(
@@ -138,16 +142,21 @@ const Cocktail = ({
 									}` as keyof ICocktailItem;
 									return (
 										<Grow
+											key={index}
 											in={true}
 											style={{ transformOrigin: "0 0 0" }}
-											timeout={1000 * index}
+											timeout={800 * index}
 										>
 											<Box
-												key={index}
 												gap={1}
 												sx={{
 													display: "flex",
 													marginBottom: 1,
+												}}
+												onClick={() => {
+													handleIngredientOpen(
+														cocktailItem[ingredient] as string
+													);
 												}}
 											>
 												<Avatar
@@ -265,6 +274,13 @@ const Cocktail = ({
 					)}
 				</CardContent>
 			</Card>
+			{!!ingredientModal && (
+				<IngredientModal
+					setErrorApi={setErrorApi}
+					ingredientModal={ingredientModal}
+					setIngredientModal={setIngredientModal}
+				/>
+			)}
 		</>
 	);
 };

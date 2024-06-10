@@ -51,8 +51,30 @@ export interface ICocktailItem {
 	strCreativeCommonsConfirmed: string | null;
 	dateModified: string | null;
 }
+export interface IIngredients {
+	idIngredient: string;
+	strIngredient: string;
+	strDescription: string;
+	strType: string;
+	strAlcohol: string;
+	strABV: string;
+}
 export enum IngredientsThumbSize {
 	small = "-Small.png",
 	medium = "-Medium.png",
 	large = ".png",
+}
+export enum RequestType {
+	search = "search.php?",
+	filter = "filter.php?",
+	list = "list.php?",
+	lookup = "lookup.php?",
+	random = "random.php",
+}
+
+export enum ListCategories {
+	categories = "c=list",
+	glasses = "g=list",
+	ingredients = "i=list",
+	alcoholic = "a=list",
 }

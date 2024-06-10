@@ -1,13 +1,13 @@
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import { Container } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-import logo from "/img/logo.png";
-import { Container } from "@mui/material";
 import { ICocktailItem } from "./types";
+import logo from "/img/logo.png";
 
 function HideOnScroll({ children }: { children: React.ReactElement }) {
 	const trigger = useScrollTrigger({

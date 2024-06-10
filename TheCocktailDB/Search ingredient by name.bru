@@ -1,0 +1,15 @@
+meta {
+  name: Search ingredient by name
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base}}/api/json/v1/1/search.php?i=vodka
+  body: none
+  auth: none
+}
+
+query {
+  i: vodka
+}

@@ -7,10 +7,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import { alpha, styled } from "@mui/material/styles";
-import { useState, useCallback, useMemo } from "react";
+import debounce from "lodash.debounce";
+import { useCallback, useMemo, useState } from "react";
 import { getCocktailByName } from "../api/requests";
 import { ICocktailItem } from "./types";
-import debounce from "lodash.debounce";
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",

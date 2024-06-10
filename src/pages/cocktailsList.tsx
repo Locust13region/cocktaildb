@@ -1,12 +1,12 @@
-import Box from "@mui/material/Box";
-import { ICocktailItem } from "../components/types";
 import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Skeleton from "@mui/material/Skeleton";
-import React from "react";
+import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
 import Grow from "@mui/material/Grow";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import React from "react";
+import { ICocktailItem } from "../components/types";
 
 const CocktailsList = ({
 	setInputValue,
@@ -90,12 +90,12 @@ const CocktailsList = ({
 				<Box paddingBottom={8}>
 					{cocktailsListing.map((cocktailItem, index) => (
 						<Grow
+							key={index}
 							in={true}
 							style={{ transformOrigin: "0 0 0" }}
-							timeout={800 * index}
+							timeout={500 * index}
 						>
 							<Box
-								key={index}
 								gap={2}
 								onClick={() => {
 									setInputValue(cocktailItem.strDrink);
