@@ -9,10 +9,12 @@ import React from "react";
 import { ICocktailItem } from "../components/types";
 
 const CocktailsList = ({
+	setShowFilter,
 	setInputValue,
 	cocktailsListing,
 	setCocktailsListing,
 }: {
+	setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
 	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	cocktailsListing: ICocktailItem[];
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
@@ -100,6 +102,7 @@ const CocktailsList = ({
 								onClick={() => {
 									setInputValue(cocktailItem.strDrink);
 									setCocktailsListing([cocktailItem]);
+									setShowFilter(false);
 								}}
 								sx={{
 									display: "flex",

@@ -1,6 +1,9 @@
-export interface ICocktailItem {
+export interface ICocktailFiltered {
 	idDrink: string;
 	strDrink: string;
+	strDrinkThumb: string | null;
+}
+export interface ICocktailItem extends ICocktailFiltered {
 	strDrinkAlternate: string | null;
 	strTags: string | null;
 	strVideo: string | null;
@@ -15,7 +18,6 @@ export interface ICocktailItem {
 	strInstructionsIT: string | null;
 	"strInstructionsZH-HANS": string | null;
 	"strInstructionsZH-HANT": string | null;
-	strDrinkThumb: string | null;
 	strIngredient1: string | null;
 	strIngredient2: string | null;
 	strIngredient3: string | null;
@@ -72,9 +74,42 @@ export enum RequestType {
 	random = "random.php",
 }
 
-export enum ListCategories {
-	categories = "c=list",
-	glasses = "g=list",
-	ingredients = "i=list",
-	alcoholic = "a=list",
+export enum UrlSuffices {
+	"c=",
+	"g=",
+	"i=",
+	"a=",
+}
+export enum Section {
+	category,
+	glass,
+	ingredient,
+	alcoholic,
+}
+
+export type Category = {
+	strCategory: string;
+};
+export type Glass = {
+	strGlass: string;
+};
+export type Ingredient = {
+	strIngredient1: string;
+};
+export type Alcoholic = {
+	strAlcoholic: string;
+};
+export type SelectedSection = Category | Glass | Ingredient | Alcoholic;
+export interface ParamMap {
+	[Section.category]: Category;
+	[Section.glass]: Glass;
+	[Section.ingredient]: Ingredient;
+	[Section.alcoholic]: Alcoholic;
+}
+
+export interface IFiltersParams {
+	category?: Category[];
+	glass?: Glass[];
+	ingredient?: Ingredient[];
+	alcoholic?: Alcoholic[];
 }

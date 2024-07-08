@@ -8,8 +8,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import App from "./App.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
+	// <React.StrictMode>
+	<>
 		<CssBaseline />
 		<App />
-	</React.StrictMode>
+	</>
+	// {/* </React.StrictMode> */}
 );

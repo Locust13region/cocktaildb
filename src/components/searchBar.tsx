@@ -1,6 +1,5 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -15,9 +14,9 @@ import { ICocktailItem } from "./types";
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
 	borderRadius: 50,
-	backgroundColor: alpha(theme.palette.common.white, 0.15),
+	backgroundColor: alpha(theme.palette.common.white, 0.2),
 	"&:hover": {
-		backgroundColor: alpha(theme.palette.common.white, 0.25),
+		backgroundColor: alpha(theme.palette.common.white, 0.3),
 	},
 	marginRight: theme.spacing(2),
 	marginLeft: 0,
@@ -79,9 +78,9 @@ const SearchBar = ({
 	);
 
 	return (
-		<Box sx={{ my: 2 }}>
+		<>
 			<Toolbar />
-			<Search>
+			<Search sx={{ mt: 2, mb: 1 }}>
 				<StyledTextField
 					id="SearchField"
 					type="text"
@@ -122,7 +121,7 @@ const SearchBar = ({
 					}}
 				></StyledTextField>
 			</Search>
-		</Box>
+		</>
 	);
 };
 

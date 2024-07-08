@@ -27,8 +27,12 @@ function HideOnScroll({ children }: { children: React.ReactElement }) {
 }
 
 const HeaderBar = ({
+	showFilter,
+	setShowFilter,
 	setCocktailsListing,
 }: {
+	showFilter: boolean;
+	setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
 }) => {
 	return (
@@ -58,6 +62,7 @@ const HeaderBar = ({
 								color="inherit"
 								aria-label="headerBar"
 								sx={{}}
+								onClick={() => setShowFilter(!showFilter)}
 							>
 								<FilterAltOutlinedIcon fontSize="large" />
 							</IconButton>
