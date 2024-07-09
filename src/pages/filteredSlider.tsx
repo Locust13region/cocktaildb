@@ -4,20 +4,23 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SlideLoader from "../components/slide-loader";
 import { ICocktailItem } from "../components/types";
+import React from "react";
 
-export default function FilteredSlider({
-	setShowFilter,
-	options,
-	setErrorApi,
-	setInputValue,
-	setCocktailsListing,
-}: {
+interface Props {
 	setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
 	options: string[][];
 	setErrorApi: React.Dispatch<React.SetStateAction<boolean>>;
 	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
-}) {
+}
+
+const FilteredSlider: React.FC<Props> = ({
+	setShowFilter,
+	options,
+	setErrorApi,
+	setInputValue,
+	setCocktailsListing,
+}) => {
 	return (
 		<>
 			<Swiper
@@ -43,4 +46,6 @@ export default function FilteredSlider({
 			</Swiper>
 		</>
 	);
-}
+};
+
+export default FilteredSlider;

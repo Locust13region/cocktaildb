@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 
-const ErrorOccurred = () => {
+const ErrorOccurred: React.FC = () => {
 	return (
 		<Typography
 			component={"h4"}

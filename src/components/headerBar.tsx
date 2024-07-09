@@ -9,7 +9,11 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { ICocktailItem } from "./types";
 import logo from "/img/logo.png";
 
-function HideOnScroll({ children }: { children: React.ReactElement }) {
+interface IHideOnScrollProp {
+	children: React.ReactElement;
+}
+
+const HideOnScroll: React.FC<IHideOnScrollProp> = ({ children }) => {
 	const trigger = useScrollTrigger({
 		threshold: 100,
 		disableHysteresis: true,
@@ -24,16 +28,18 @@ function HideOnScroll({ children }: { children: React.ReactElement }) {
 			{children}
 		</Slide>
 	);
-}
+};
 
-const HeaderBar = ({
-	showFilter,
-	setShowFilter,
-	setCocktailsListing,
-}: {
+interface ICompProps {
 	showFilter: boolean;
 	setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
+}
+
+const HeaderBar: React.FC<ICompProps> = ({
+	showFilter,
+	setShowFilter,
+	setCocktailsListing,
 }) => {
 	return (
 		<>

@@ -8,16 +8,17 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { ICocktailItem } from "../components/types";
 
-const CocktailsList = ({
-	setShowFilter,
-	setInputValue,
-	cocktailsListing,
-	setCocktailsListing,
-}: {
+interface ICompProps {
 	setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
 	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	cocktailsListing: ICocktailItem[];
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
+}
+const CocktailsList: React.FC<ICompProps> = ({
+	setShowFilter,
+	setInputValue,
+	cocktailsListing,
+	setCocktailsListing,
 }) => {
 	if (!cocktailsListing) {
 		return (

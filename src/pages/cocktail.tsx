@@ -16,13 +16,12 @@ import { urlIngredientThumb } from "../api/url";
 import { ICocktailItem, IngredientsThumbSize } from "../components/types";
 import IngredientModal from "../components/ingredientModal";
 
-const Cocktail = ({
-	cocktailsListing,
-	setErrorApi,
-}: {
+interface ICompProps {
 	cocktailsListing: ICocktailItem[];
 	setErrorApi: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+}
+
+const Cocktail: React.FC<ICompProps> = ({ cocktailsListing, setErrorApi }) => {
 	const [cocktailItem, setCocktailItem] = useState<ICocktailItem>();
 	const [ingredientModal, setIngredientModal] = useState("");
 	const handleIngredientOpen = (ingredient: string) =>
@@ -89,6 +88,7 @@ const Cocktail = ({
 					>
 						<CardMedia
 							component="img"
+							loading="lazy"
 							height="380"
 							image={cocktailItem.strDrinkThumb ?? undefined}
 							alt={cocktailItem.strDrink}

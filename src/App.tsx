@@ -2,16 +2,16 @@ import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Container from "@mui/material/Container";
-import { useState } from "react";
-import Filter from "./components/filter";
+import { Suspense, lazy, useState } from "react";
+const Filter = lazy(() => import("./components/filter"));
 import HeaderBar from "./components/headerBar";
-import SearchBar from "./components/searchBar";
+const SearchBar = lazy(() => import("./components/searchBar"));
 import { ICocktailItem } from "./components/types";
-import Cocktail from "./pages/cocktail";
-import CocktailsList from "./pages/cocktailsList";
-import ErrorOccurred from "./pages/error";
+const Cocktail = lazy(() => import("./pages/cocktail"));
+const CocktailsList = lazy(() => import("./pages/cocktailsList"));
+const ErrorOccurred = lazy(() => import("./pages/error"));
 
-function App() {
+const App: React.FC = () => {
 	const [showFilter, setShowFilter] = useState(false);
 	const [errorApi, setErrorApi] = useState(false);
 	const [inputValue, setInputValue] = useState("");
@@ -37,40 +37,44 @@ function App() {
 					setCocktailsListing={setCocktailsListing}
 				/>
 				<Collapse in={!showFilter}>
-					<SearchBar
-						inputValue={inputValue}
-						setInputValue={setInputValue}
-						setCocktailsListing={setCocktailsListing}
-						setErrorApi={setErrorApi}
-					/>
-					{!errorApi &&
-						(cocktailsListing && cocktailsListing.length <= 1 ? (
-							<Cocktail
-								cocktailsListing={cocktailsListing}
-								setErrorApi={setErrorApi}
-							/>
-						) : (
-							<CocktailsList
-								setShowFilter={setShowFilter}
-								setInputValue={setInputValue}
-								cocktailsListing={cocktailsListing}
-								setCocktailsListing={setCocktailsListing}
-							/>
-						))}
-					{errorApi && <ErrorOccurred />}
+					<Suspense>
+						<SearchBar
+							inputValue={inputValue}
+							setInputValue={setInputValue}
+							setCocktailsListing={setCocktailsListing}
+							setErrorApi={setErrorApi}
+						/>
+						{!errorApi &&
+							(cocktailsListing && cocktailsListing.length <= 1 ? (
+								<Cocktail
+									cocktailsListing={cocktailsListing}
+									setErrorApi={setErrorApi}
+								/>
+							) : (
+								<CocktailsList
+									setShowFilter={setShowFilter}
+									setInputValue={setInputValue}
+									cocktailsListing={cocktailsListing}
+									setCocktailsListing={setCocktailsListing}
+								/>
+							))}
+						{errorApi && <ErrorOccurred />}
+					</Suspense>
 				</Collapse>
 				<Collapse in={showFilter}>
-					<Filter
-						setShowFilter={setShowFilter}
-						setInputValue={setInputValue}
-						setCocktailsListing={setCocktailsListing}
-						errorApi={errorApi}
-						setErrorApi={setErrorApi}
-					/>
+					<Suspense>
+						<Filter
+							setShowFilter={setShowFilter}
+							setInputValue={setInputValue}
+							setCocktailsListing={setCocktailsListing}
+							errorApi={errorApi}
+							setErrorApi={setErrorApi}
+						/>
+					</Suspense>
 				</Collapse>
 			</Container>
 		</Box>
 	);
-}
+};
 
 export default App;

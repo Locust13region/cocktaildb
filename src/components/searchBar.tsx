@@ -40,16 +40,18 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 	},
 }));
 
-const SearchBar = ({
-	inputValue,
-	setInputValue,
-	setCocktailsListing,
-	setErrorApi,
-}: {
+interface ICompProps {
 	inputValue: string;
 	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	setCocktailsListing: React.Dispatch<React.SetStateAction<ICocktailItem[]>>;
 	setErrorApi: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SearchBar: React.FC<ICompProps> = ({
+	inputValue,
+	setInputValue,
+	setCocktailsListing,
+	setErrorApi,
 }) => {
 	const [loading, setLoading] = useState(false);
 
