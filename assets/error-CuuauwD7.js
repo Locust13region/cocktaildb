@@ -1,0 +1,1 @@
+import{j as r}from"./index-CeqGM_HI.js";import{T as e}from"./Typography-DeLBxtFE.js";const n=()=>r.jsx(e,{component:"h4",align:"center",variant:"h6",sx:{width:"100%"},children:"An error occurred while accessing the server."});export{n as default};
