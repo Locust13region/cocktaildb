@@ -12,10 +12,12 @@ import {
 	ICocktailItem,
 	IFiltersParams,
 	Ingredient,
-} from "./types";
-import FilteredSlider from "../pages/filteredSlider";
-import ErrorOccurred from "../pages/error";
+} from "../components/types";
+import FilteredSlider from "./filteredSlider";
+import ErrorOccurred from "./error";
 import Typography from "@mui/material/Typography";
+import { alpha, Paper } from "@mui/material";
+import { Pix } from "@mui/icons-material";
 
 interface ICompProps {
 	setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
@@ -142,7 +144,17 @@ const Filter: React.FC<ICompProps> = ({
 									maxHeight: 200,
 								},
 							}}
-							// PaperComponent={{<Paper elevation={8} {...props} />}}
+							slotProps={{
+								paper: {
+									elevation: 10,
+									sx: {
+										borderRadius: 2,
+										backgroundColor: alpha("#ffffff", 0.1),
+										backdropFilter: `blur(24px)`,
+										WebkitBackdropFilter: `blur(24px})`,
+									},
+								},
+							}}
 							forcePopupIcon
 							limitTags={1}
 							value={selectedIngredient}
@@ -178,6 +190,17 @@ const Filter: React.FC<ICompProps> = ({
 									maxHeight: 450,
 								},
 							}}
+							slotProps={{
+								paper: {
+									elevation: 10,
+									sx: {
+										borderRadius: 2,
+										backgroundColor: alpha("#ffffff", 0.1),
+										backdropFilter: `blur(24px)`,
+										WebkitBackdropFilter: `blur(24px})`,
+									},
+								},
+							}}
 							forcePopupIcon
 							limitTags={1}
 							value={selectedCategory}
@@ -211,6 +234,17 @@ const Filter: React.FC<ICompProps> = ({
 									maxHeight: 300,
 								},
 							}}
+							slotProps={{
+								paper: {
+									elevation: 10,
+									sx: {
+										borderRadius: 2,
+										backgroundColor: alpha("#ffffff", 0.1),
+										backdropFilter: `blur(24px)`,
+										WebkitBackdropFilter: `blur(24px})`,
+									},
+								},
+							}}
 							forcePopupIcon
 							limitTags={1}
 							value={selectedAlcoholic}
@@ -239,6 +273,17 @@ const Filter: React.FC<ICompProps> = ({
 							ListboxProps={{
 								style: {
 									maxHeight: 300,
+								},
+							}}
+							slotProps={{
+								paper: {
+									elevation: 10,
+									sx: {
+										borderRadius: 2,
+										backgroundColor: alpha("#ffffff", 0.1),
+										backdropFilter: `blur(24px)`,
+										WebkitBackdropFilter: `blur(24px})`,
+									},
 								},
 							}}
 							forcePopupIcon

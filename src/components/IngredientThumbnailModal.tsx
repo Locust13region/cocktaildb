@@ -6,6 +6,7 @@ import { useState } from "react";
 import { urlIngredientThumb } from "../api/url";
 import { modalStyle, overlayStyle } from "./styles";
 import { IIngredients, IngredientsThumbSize } from "./types";
+import { alpha } from "@mui/material";
 
 interface ICompProps {
 	ingredient: IIngredients | null;
@@ -43,7 +44,7 @@ const IngredientThumbnailModal: React.FC<ICompProps> = ({ ingredient }) => {
 				slotProps={{
 					backdrop: {
 						sx: {
-							backgroundColor: "rgb(0, 0, 0, 0)",
+							backgroundColor: alpha("#ffffff", 0),
 						},
 					},
 				}}

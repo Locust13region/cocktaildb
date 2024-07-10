@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Container from "@mui/material/Container";
 import { Suspense, lazy, useState } from "react";
-const Filter = lazy(() => import("./components/filter"));
+const Filter = lazy(() => import("./pages/filter"));
 import HeaderBar from "./components/headerBar";
 const SearchBar = lazy(() => import("./components/searchBar"));
 import { ICocktailItem } from "./components/types";
