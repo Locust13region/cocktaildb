@@ -16,8 +16,7 @@ import {
 import FilteredSlider from "./filteredSlider";
 import ErrorOccurred from "./error";
 import Typography from "@mui/material/Typography";
-import { alpha, Paper } from "@mui/material";
-import { Pix } from "@mui/icons-material";
+import { alpha } from "@mui/material";
 
 interface ICompProps {
 	setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;

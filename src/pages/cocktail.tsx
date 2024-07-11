@@ -23,15 +23,32 @@ interface ICompProps {
 
 const Cocktail: React.FC<ICompProps> = ({ cocktailsListing, setErrorApi }) => {
 	const [cocktailItem, setCocktailItem] = useState<ICocktailItem>();
+	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const [ingredientModal, setIngredientModal] = useState("");
 	const handleIngredientOpen = (ingredient: string) =>
 		setIngredientModal(ingredient);
 
 	useEffect(() => {
+		setCocktailItem(undefined);
 		getCocktailByName(cocktailsListing[0]?.strDrink, setErrorApi).then(
 			(result) => setCocktailItem(result.drinks[0])
 		);
 	}, [cocktailsListing, setErrorApi]);
+
+	console.log("cocktailItem", cocktailItem);
+
+	useEffect(() => {
+		setImageLoading(false);
+		if (cocktailItem?.strDrinkThumb) {
+			const img = new Image();
+			img.src = cocktailItem.strDrinkThumb;
+			img.onload = () => setImageLoading(true);
+		}
+	}, [cocktailItem?.strDrinkThumb]);
+
+	const cocktailImage = imageLoading
+		? cocktailItem?.strDrinkThumb
+		: `${cocktailItem?.strDrinkThumb}/preview`;
 
 	return (
 		<>
@@ -82,18 +99,16 @@ const Cocktail: React.FC<ICompProps> = ({ cocktailsListing, setErrorApi }) => {
 					}
 				/>
 				{cocktailItem ? (
-					<Fade
-						in={!!cocktailItem}
-						timeout={1000}
-					>
-						<CardMedia
-							component="img"
-							loading="lazy"
-							height="380"
-							image={cocktailItem.strDrinkThumb ?? undefined}
-							alt={cocktailItem.strDrink}
-						/>
-					</Fade>
+					<CardMedia
+						component="img"
+						height="380"
+						image={cocktailImage ?? undefined}
+						alt={cocktailItem.strDrink}
+						style={{
+							transition: "opacity 0.5s ease-in-out",
+							opacity: imageLoading ? 1 : 0.5,
+						}}
+					/>
 				) : (
 					<Skeleton
 						sx={{ height: 380 }}
